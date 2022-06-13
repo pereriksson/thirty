@@ -23,6 +23,7 @@ class Thirty {
         private set
     var dice6: Int? = null
         private set
+    var pickedDices = mutableListOf<Int>()
 
     fun throwDice() {
         if (stopped) {

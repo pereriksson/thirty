@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Thirty</string>
     <string name="title_activity_main">Thirty</string>
+    <string name="dice_size">85dp</string>
     
     <string-array name="grading_settings">
         <item>Low</item>

@@ -1,3 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="dice_size">85dp</dimen>
+    <dimen name="dice_margin">15dp</dimen>
 </resources>

@@ -28,21 +28,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/dice_margin">
+
                 <ImageButton
                     android:id="@+id/dice1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dice_size"
+                    android:layout_height="@dimen/dice_size"
+                    android:scaleType="fitXY"
+                    android:background="@null"
+                    android:layout_marginRight="@dimen/dice_margin"
                     android:src="@drawable/white1" />
                 <ImageButton
                     android:id="@+id/dice2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dice_size"
+                    android:layout_height="@dimen/dice_size"
+                    android:scaleType="fitXY"
+                    android:background="@null"
+                    android:layout_marginRight="@dimen/dice_margin"
                     android:src="@drawable/white1"/>
                 <ImageButton
                     android:id="@+id/dice3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dice_size"
+                    android:layout_height="@dimen/dice_size"
+                    android:scaleType="fitXY"
+                    android:background="@null"
                     android:src="@drawable/white1"/>
             </LinearLayout>
             <LinearLayout
@@ -52,18 +62,26 @@
                 android:gravity="center">
                 <ImageButton
                     android:id="@+id/dice4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dice_size"
+                    android:layout_height="@dimen/dice_size"
+                    android:scaleType="fitXY"
+                    android:background="@null"
+                    android:layout_marginRight="@dimen/dice_margin"
                     android:src="@drawable/white2"/>
                 <ImageButton
                     android:id="@+id/dice5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dice_size"
+                    android:layout_height="@dimen/dice_size"
+                    android:scaleType="fitXY"
+                    android:background="@null"
+                    android:layout_marginRight="@dimen/dice_margin"
                     android:src="@drawable/white2"/>
                 <ImageButton
                     android:id="@+id/dice6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dice_size"
+                    android:layout_height="@dimen/dice_size"
+                    android:scaleType="fitXY"
+                    android:background="@null"
                     android:src="@drawable/white2"/>
             </LinearLayout>
         </LinearLayout>

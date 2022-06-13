@@ -42,14 +42,36 @@ class MainActivity : AppCompatActivity() {
         R.drawable.red5,
         R.drawable.red6
     )
+    private val yellowDices = listOf(
+        R.drawable.yellow1,
+        R.drawable.yellow2,
+        R.drawable.yellow3,
+        R.drawable.yellow4,
+        R.drawable.yellow5,
+        R.drawable.yellow6
+    )
 
     private fun setDiceFace(n: Int, color: String = "white") {
 
     }
 
+    private fun toggleDice(btn: ImageButton, dice: Int) {
+        if (thirty.pickedDices.contains(0)) {
+            btn.setImageResource(yellowDices[dice!! - 1])
+        } else {
+            btn.setImageResource(whiteDices[dice!! - 1])
+        }
+    }
+
     private fun updateDices() {
+        // TODO: The app crashes when clicking the dices before first throw
         // TODO: Do not use !!
-        dice1.setImageResource(whiteDices[thirty.dice1!! - 1])
+        thirty.dice1
+            ?.let {
+                toggleDice(dice1, it)
+            }
+
+
         dice2.setImageResource(whiteDices[thirty.dice2!! - 1])
         dice3.setImageResource(whiteDices[thirty.dice3!! - 1])
         dice4.setImageResource(whiteDices[thirty.dice4!! - 1])
@@ -101,6 +123,16 @@ class MainActivity : AppCompatActivity() {
             if (thirty.stopped) {
                 throwButton.isEnabled = false
             }
+        }
+
+        dice1.setOnClickListener { view: View ->
+            // todo: pick
+            if (thirty.pickedDices.contains(0)) {
+                thirty.pickedDices.remove(0)
+            } else {
+                thirty.pickedDices.add(0)
+            }
+            updateDices()
         }
 
         //todo: gradingSetting.isEnabled = false
