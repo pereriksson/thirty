@@ -3,18 +3,23 @@ package se.umu.cs.peer0019.thirty
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.Spinner
+import android.widget.*
 
-// TODO: saveInstanceState
-// todo: design
+/*
+todo:
+ saveInstanceState
+ design
+ game logic
+   more textviews with round info
+   rounds
+   disable spinner after first round
+ */
 
 class MainActivity : AppCompatActivity() {
     private lateinit var gradingSetting: Spinner
     private lateinit var throwButton: Button
     private lateinit var thirty: Thirty
+    private lateinit var topMessage: TextView
     private lateinit var dice1: ImageButton
     private lateinit var dice2: ImageButton
     private lateinit var dice3: ImageButton
@@ -38,13 +43,27 @@ class MainActivity : AppCompatActivity() {
         R.drawable.red6
     )
 
+    private fun setDiceFace(n: Int, color: String = "white") {
+
+    }
+
     private fun updateDices() {
+        // TODO: Do not use !!
         dice1.setImageResource(whiteDices[thirty.dice1!! - 1])
         dice2.setImageResource(whiteDices[thirty.dice2!! - 1])
         dice3.setImageResource(whiteDices[thirty.dice3!! - 1])
         dice4.setImageResource(whiteDices[thirty.dice4!! - 1])
         dice5.setImageResource(whiteDices[thirty.dice5!! - 1])
         dice6.setImageResource(whiteDices[thirty.dice6!! - 1])
+    }
+
+    private fun setTopMessage() {
+        var text = "Round \n"+thirty.round.toString()
+        if (thirty.currentThrow != null) {
+            text = text+"\n"+
+                    "Throw \n"+thirty.currentThrow.toString()
+        }
+        topMessage.text = text
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +80,12 @@ class MainActivity : AppCompatActivity() {
             gradingSetting.adapter = adapter
         }
 
+        topMessage = findViewById(R.id.top_message)
+
         thirty = Thirty()
+        thirty.startGame()
+        setTopMessage()
+
         dice1 = findViewById(R.id.dice1)
         dice2 = findViewById(R.id.dice2)
         dice3 = findViewById(R.id.dice3)
@@ -73,6 +97,12 @@ class MainActivity : AppCompatActivity() {
         throwButton.setOnClickListener { view: View ->
             thirty.throwDice()
             updateDices()
+            setTopMessage()
+            if (thirty.stopped) {
+                throwButton.isEnabled = false
+            }
         }
+
+        //todo: gradingSetting.isEnabled = false
     }
 }

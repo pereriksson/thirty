@@ -3,8 +3,14 @@ package se.umu.cs.peer0019.thirty
 import kotlin.random.Random
 
 class Thirty {
-    private var gradingSetting: Integer? = null
+    private var gradingSetting: Int? = null
     private var score: Int = 0
+    var stopped: Boolean = false
+        private set
+    var round: Int? = null
+        private set
+    var currentThrow: Int? = null
+        private set
     var dice1: Int? = null
         private set
     var dice2: Int? = null
@@ -19,6 +25,13 @@ class Thirty {
         private set
 
     fun throwDice() {
+        if (stopped) {
+            return
+        }
+        if (currentThrow == 2) {
+            stopped = true
+        }
+        currentThrow = currentThrow?.inc() ?: 1
         dice1 = Random.nextInt(1, 6)
         dice2 = Random.nextInt(1, 6)
         dice3 = Random.nextInt(1, 6)
@@ -28,5 +41,8 @@ class Thirty {
     }
     fun setGradingSettings() {
 
+    }
+    fun startGame() {
+        round = 1
     }
 }
