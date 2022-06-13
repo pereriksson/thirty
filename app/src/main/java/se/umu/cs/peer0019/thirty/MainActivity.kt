@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import kotlin.math.round
 
 /*
 todo:
@@ -13,6 +14,7 @@ todo:
    more textviews with round info
    rounds
    disable spinner after first round
+ results screen
  */
 
 class MainActivity : AppCompatActivity() {
@@ -68,37 +70,36 @@ class MainActivity : AppCompatActivity() {
         val index = diceMap[btn.tag]
         index?.let {
             if (thirty.pickedDices.contains(it)) {
-                btn.setImageResource(yellowDices[thirty.getDiceValueByIndex(index)!!-1])
+                btn.setImageResource(yellowDices[thirty.dices[index]!!-1])
             } else {
-                btn.setImageResource(whiteDices[thirty.getDiceValueByIndex(index)!!-1])
+                btn.setImageResource(whiteDices[thirty.dices[index]!!-1])
             }
         }
     }
 
     private fun updateDices() {
         // TODO: The app crashes when clicking the dices before first throw
-        // Todo: maybe show a welcome screen with a logo first?
-        thirty.dice1
+        thirty.dices[0]
             ?.let {
                 updateDice(dice1, 0)
             }
-        thirty.dice2
+        thirty.dices[1]
             ?.let {
                 updateDice(dice2, 1)
             }
-        thirty.dice3
+        thirty.dices[2]
             ?.let {
                 updateDice(dice3, 2)
             }
-        thirty.dice4
+        thirty.dices[3]
             ?.let {
                 updateDice(dice4, 3)
             }
-        thirty.dice5
+        thirty.dices[4]
             ?.let {
                 updateDice(dice5, 4)
             }
-        thirty.dice6
+        thirty.dices[5]
             ?.let {
                 updateDice(dice6, 5)
             }
@@ -178,5 +179,39 @@ class MainActivity : AppCompatActivity() {
                 diceClickListener(it)
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        println("onSaveInstanceState")
+        outState.putString("fgh", "fghjk")
+        // todo: vad kan vi spara ner? t ex score
+        // todo: även pågående rond?
+        thirty.gradingSetting?.let {
+            outState.putInt("gradingSetting", it)
+        }
+        thirty.score?.let {
+            outState.putInt("score", it)
+        }
+        thirty.stopped?.let {
+            outState.putBoolean("stopped", it)
+        }
+        thirty.round?.let {
+            outState.putInt("round", it)
+        }
+        thirty.currentThrow?.let {
+            outState.putInt("currentThrow", it)
+        }
+        thirty.pickedDices?.let {
+            // ?
+        }
+        thirty.dices?.let {
+            // ?
+        }
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        println("onRestoreInstanceState")
     }
 }
