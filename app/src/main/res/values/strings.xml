@@ -2,6 +2,14 @@
     <string name="app_name">Thirty</string>
     <string name="title_activity_main">Thirty</string>
     <string name="dice_size">85dp</string>
+    <string name="dice1_label">Dice 1</string>
+    <string name="dice2_label">Dice 2</string>
+    <string name="dice3_label">Dice 3</string>
+    <string name="dice4_label">Dice 4</string>
+    <string name="dice5_label">Dice 5</string>
+    <string name="dice6_label">Dice 6</string>
+    <string name="throw_label">Throw</string>
+    <string name="grading_label">Grading:</string>
     
     <string-array name="grading_settings">
         <item>Low</item>

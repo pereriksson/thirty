@@ -37,7 +37,9 @@
                     android:layout_height="@dimen/dice_size"
                     android:scaleType="fitXY"
                     android:background="@null"
-                    android:layout_marginRight="@dimen/dice_margin"
+                    android:layout_marginEnd="@dimen/dice_margin"
+                    android:contentDescription="@string/dice1_label"
+                    android:tag="dice1"
                     android:src="@drawable/white1" />
                 <ImageButton
                     android:id="@+id/dice2"
@@ -45,7 +47,9 @@
                     android:layout_height="@dimen/dice_size"
                     android:scaleType="fitXY"
                     android:background="@null"
-                    android:layout_marginRight="@dimen/dice_margin"
+                    android:layout_marginEnd="@dimen/dice_margin"
+                    android:contentDescription="@string/dice2_label"
+                    android:tag="dice2"
                     android:src="@drawable/white1"/>
                 <ImageButton
                     android:id="@+id/dice3"
@@ -53,6 +57,8 @@
                     android:layout_height="@dimen/dice_size"
                     android:scaleType="fitXY"
                     android:background="@null"
+                    android:contentDescription="@string/dice3_label"
+                    android:tag="dice3"
                     android:src="@drawable/white1"/>
             </LinearLayout>
             <LinearLayout
@@ -66,7 +72,9 @@
                     android:layout_height="@dimen/dice_size"
                     android:scaleType="fitXY"
                     android:background="@null"
-                    android:layout_marginRight="@dimen/dice_margin"
+                    android:layout_marginEnd="@dimen/dice_margin"
+                    android:contentDescription="@string/dice4_label"
+                    android:tag="dice4"
                     android:src="@drawable/white2"/>
                 <ImageButton
                     android:id="@+id/dice5"
@@ -74,7 +82,9 @@
                     android:layout_height="@dimen/dice_size"
                     android:scaleType="fitXY"
                     android:background="@null"
-                    android:layout_marginRight="@dimen/dice_margin"
+                    android:layout_marginEnd="@dimen/dice_margin"
+                    android:contentDescription="@string/dice5_label"
+                    android:tag="dice5"
                     android:src="@drawable/white2"/>
                 <ImageButton
                     android:id="@+id/dice6"
@@ -82,6 +92,8 @@
                     android:layout_height="@dimen/dice_size"
                     android:scaleType="fitXY"
                     android:background="@null"
+                    android:contentDescription="@string/dice6_label"
+                    android:tag="dice6"
                     android:src="@drawable/white2"/>
             </LinearLayout>
         </LinearLayout>
@@ -96,12 +108,12 @@
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
                 android:textAllCaps="false"
-                android:text="Throw" />
+                android:text="@string/throw_label" />
         </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Grading:"/>
+            android:text="@string/grading_label"/>
 
         <Spinner
             android:id="@+id/grading_setting"

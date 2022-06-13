@@ -25,6 +25,16 @@ class Thirty {
         private set
     var pickedDices = mutableListOf<Int>()
 
+    fun getDiceValueByIndex(index: Int): Int? {
+        if (index == 0) return dice1
+        if (index == 1) return dice2
+        if (index == 2) return dice3
+        if (index == 3) return dice4
+        if (index == 4) return dice5
+        if (index == 5) return dice6
+        return null
+    }
+
     fun throwDice() {
         if (stopped) {
             return
@@ -32,6 +42,7 @@ class Thirty {
         if (currentThrow == 2) {
             stopped = true
         }
+        pickedDices = mutableListOf()
         currentThrow = currentThrow?.inc() ?: 1
         dice1 = Random.nextInt(1, 6)
         dice2 = Random.nextInt(1, 6)

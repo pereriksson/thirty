@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dice4: ImageButton
     private lateinit var dice5: ImageButton
     private lateinit var dice6: ImageButton
+    private lateinit var dices: List<ImageButton>
     private val whiteDices = listOf(
         R.drawable.white1,
         R.drawable.white2,
@@ -50,33 +51,57 @@ class MainActivity : AppCompatActivity() {
         R.drawable.yellow5,
         R.drawable.yellow6
     )
+    private val diceMap = mapOf(
+        "dice1" to 0,
+        "dice2" to 1,
+        "dice3" to 2,
+        "dice4" to 3,
+        "dice5" to 4,
+        "dice6" to 5
+    )
 
     private fun setDiceFace(n: Int, color: String = "white") {
 
     }
 
-    private fun toggleDice(btn: ImageButton, dice: Int) {
-        if (thirty.pickedDices.contains(0)) {
-            btn.setImageResource(yellowDices[dice!! - 1])
-        } else {
-            btn.setImageResource(whiteDices[dice!! - 1])
+    private fun updateDice(btn: ImageButton, dice: Int) {
+        val index = diceMap[btn.tag]
+        index?.let {
+            if (thirty.pickedDices.contains(it)) {
+                btn.setImageResource(yellowDices[thirty.getDiceValueByIndex(index)!!-1])
+            } else {
+                btn.setImageResource(whiteDices[thirty.getDiceValueByIndex(index)!!-1])
+            }
         }
     }
 
     private fun updateDices() {
         // TODO: The app crashes when clicking the dices before first throw
-        // TODO: Do not use !!
+        // Todo: maybe show a welcome screen with a logo first?
         thirty.dice1
             ?.let {
-                toggleDice(dice1, it)
+                updateDice(dice1, 0)
             }
-
-
-        dice2.setImageResource(whiteDices[thirty.dice2!! - 1])
-        dice3.setImageResource(whiteDices[thirty.dice3!! - 1])
-        dice4.setImageResource(whiteDices[thirty.dice4!! - 1])
-        dice5.setImageResource(whiteDices[thirty.dice5!! - 1])
-        dice6.setImageResource(whiteDices[thirty.dice6!! - 1])
+        thirty.dice2
+            ?.let {
+                updateDice(dice2, 1)
+            }
+        thirty.dice3
+            ?.let {
+                updateDice(dice3, 2)
+            }
+        thirty.dice4
+            ?.let {
+                updateDice(dice4, 3)
+            }
+        thirty.dice5
+            ?.let {
+                updateDice(dice5, 4)
+            }
+        thirty.dice6
+            ?.let {
+                updateDice(dice6, 5)
+            }
     }
 
     private fun setTopMessage() {
@@ -89,6 +114,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        //todo: gradingSetting.isEnabled = false
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         gradingSetting = findViewById(R.id.grading_setting)
@@ -114,6 +140,14 @@ class MainActivity : AppCompatActivity() {
         dice4 = findViewById(R.id.dice4)
         dice5 = findViewById(R.id.dice5)
         dice6 = findViewById(R.id.dice6)
+        dices = listOf(
+            dice1,
+            dice2,
+            dice3,
+            dice4,
+            dice5,
+            dice6
+        )
 
         throwButton = findViewById(R.id.throw_button)
         throwButton.setOnClickListener { view: View ->
@@ -125,16 +159,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        dice1.setOnClickListener { view: View ->
-            // todo: pick
-            if (thirty.pickedDices.contains(0)) {
-                thirty.pickedDices.remove(0)
-            } else {
-                thirty.pickedDices.add(0)
+        fun diceClickListener (btn: View) {
+            // todo: the game might say "No" when trying to pick
+            val index = diceMap[btn.tag]
+            index?.let {
+                if (thirty.pickedDices.contains(it)) {
+                    thirty.pickedDices.remove(it)
+                } else {
+                    thirty.pickedDices.add(it)
+                }
             }
+
             updateDices()
         }
 
-        //todo: gradingSetting.isEnabled = false
+        dices.forEach {
+            it.setOnClickListener { it
+                diceClickListener(it)
+            }
+        }
     }
 }
