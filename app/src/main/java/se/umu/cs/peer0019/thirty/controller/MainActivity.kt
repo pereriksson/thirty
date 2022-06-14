@@ -11,12 +11,10 @@ import se.umu.cs.peer0019.thirty.model.Thirty
 
 /*
 todo:
- saveInstanceState
- design
  game logic
-   more textviews with round info
-   rounds
-   disable spinner after first round
+   pair dices at the end of each round
+   game variables for points
+   pick a grading option
  results screen
  */
 
@@ -64,10 +62,7 @@ class MainActivity : AppCompatActivity() {
         "dice5" to 4,
         "dice6" to 5
     )
-
-    private fun setDiceFace(n: Int, color: String = "white") {
-
-    }
+    private lateinit var gradingButtons: MutableList<ToggleButton>
 
     private fun updateDice(btn: ImageButton, dice: Int) {
         val index = diceMap[btn.tag]
@@ -81,7 +76,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateDices() {
-        // TODO: The app crashes when clicking the dices before first throw
         dices.forEachIndexed { index, imageButton ->
             thirty.dices[index]
                 ?.let {
@@ -105,21 +99,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        gradingSetting = findViewById(R.id.grading_setting)
 
         // Dices on one row for landscape
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            val gl = findViewById<GridLayout>(R.id.gl)
-            gl.columnCount = 6
-        }
-
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.grading_settings,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            gradingSetting.adapter = adapter
+            val dg = findViewById<GridLayout>(R.id.dice_grid)
+            dg.columnCount = 6
+            val gg = findViewById<GridLayout>(R.id.grading_grid)
+            gg.columnCount = 5
         }
 
         topMessage = findViewById(R.id.top_message)
@@ -166,9 +152,35 @@ class MainActivity : AppCompatActivity() {
             updateDices()
         }
 
+        gradingButtons = mutableListOf<ToggleButton>(
+            findViewById(R.id.low),
+            findViewById(R.id.four),
+            findViewById(R.id.five),
+            findViewById(R.id.six),
+            findViewById(R.id.seven),
+            findViewById(R.id.eight),
+            findViewById(R.id.nine),
+            findViewById(R.id.ten),
+            findViewById(R.id.eleven),
+            findViewById(R.id.twelve)
+        )
+
         dices.forEach {
             it.setOnClickListener { it
                 diceClickListener(it)
+            }
+        }
+
+        fun gradingsClickListener (btn: ToggleButton) {
+            gradingButtons.forEach {
+                it.isChecked = false
+            }
+            btn.isChecked = true
+        }
+
+        gradingButtons.forEach {
+            it.setOnClickListener { it as ToggleButton
+                gradingsClickListener(it)
             }
         }
     }

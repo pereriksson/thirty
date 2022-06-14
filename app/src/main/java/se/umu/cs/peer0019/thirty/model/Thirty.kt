@@ -8,6 +8,19 @@ class Thirty() : Parcelable {
     var gradingSetting: Int? = null
     var score: Int = 0
         private set
+    var ratings = listOf<String>(
+        "low",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12"
+    )
+    var scorePerRating = mutableListOf<Int>()
     var stopped: Boolean = false // todo: refactor
         private set
     var round: Int? = null

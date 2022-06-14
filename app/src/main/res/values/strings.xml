@@ -11,17 +11,4 @@
     <string name="throw_label">Throw</string>
     <string name="next_round_label">Next round</string>
     <string name="grading_label">Grading:</string>
-
-    <string-array name="grading_settings">
-        <item>Low</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
-        <item>9</item>
-        <item>10</item>
-        <item>11</item>
-        <item>12</item>
-    </string-array>
 </resources>

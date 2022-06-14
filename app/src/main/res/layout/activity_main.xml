@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context="se.umu.cs.peer0019.thirty.controller.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp">
+        android:gravity="center">
 
         <TextView
             android:layout_width="match_parent"
@@ -27,7 +26,7 @@
             <GridLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/gl"
+                android:id="@+id/dice_grid"
                 android:columnCount="3">
                 <ImageButton
                     android:id="@+id/dice1"
@@ -87,6 +86,73 @@
             </GridLayout>
         </LinearLayout>
 
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/grading_grid"
+            android:columnCount="3">
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/low"
+                android:textOn="Low"
+                android:textOff="Low"/>
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/four"
+                android:textOn="4"
+                android:textOff="4"/>
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/five"
+                android:textOn="5"
+                android:textOff="5"/>
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/six"
+                android:textOn="6"
+                android:textOff="6"/>
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/seven"
+                android:textOn="7"
+                android:textOff="7"/>
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/eight"
+                android:textOn="8"
+                android:textOff="8"/>
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/nine"
+                android:textOn="9"
+                android:textOff="9"/>
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ten"
+                android:textOn="10"
+                android:textOff="10"/>
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/eleven"
+                android:textOn="11"
+                android:textOff="11"/>
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/twelve"
+                android:textOn="12"
+                android:textOff="12"/>
+        </GridLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -109,14 +175,5 @@
                 android:enabled="false"
                 android:text="@string/next_round_label" />
         </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/grading_label" />
-
-        <Spinner
-            android:id="@+id/grading_setting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
