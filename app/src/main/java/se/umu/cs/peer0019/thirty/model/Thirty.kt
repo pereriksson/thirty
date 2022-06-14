@@ -38,6 +38,7 @@ class Thirty() : Parcelable {
     )
         private set
     var pickedDices = mutableListOf<Int>()
+    var pickedDicesForGrading = mutableListOf<Int>()
 
     constructor(parcel: Parcel) : this() {
         gradingSetting = parcel.readValue(Int::class.java.classLoader) as? Int
@@ -53,6 +54,7 @@ class Thirty() : Parcelable {
         if (currentThrow == 2) {
             isThrowing = false
             isGrading = true
+            pickedDices = mutableListOf<Int>()
         }
         currentThrow = currentThrow?.inc() ?: 1
         dices.forEachIndexed { index, i ->

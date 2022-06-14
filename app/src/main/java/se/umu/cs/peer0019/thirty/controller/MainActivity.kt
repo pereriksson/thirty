@@ -1,6 +1,5 @@
 package se.umu.cs.peer0019.thirty.controller
 
-import android.content.Intent
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,15 +14,17 @@ todo:
    pair dices at the end of each round
    game variables for points
    pick a grading option
+   disable grading options already used
  results screen
  */
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var gradingSetting: Spinner
     private lateinit var throwButton: Button
     private lateinit var thirty: Thirty
     private lateinit var topMessage: TextView
+    private lateinit var title: TextView
     private lateinit var instructions: TextView
+    private lateinit var gradingGrid: GridLayout
     private lateinit var dice1: ImageButton
     private lateinit var dice2: ImageButton
     private lateinit var dice3: ImageButton
@@ -68,10 +69,19 @@ class MainActivity : AppCompatActivity() {
     private fun updateDice(btn: ImageButton, dice: Int) {
         val index = diceMap[btn.tag]
         index?.let {
-            if (thirty.pickedDices.contains(it)) {
-                btn.setImageResource(yellowDices[thirty.dices[index]!!-1])
-            } else {
-                btn.setImageResource(whiteDices[thirty.dices[index]!!-1])
+            if (thirty.isThrowing) {
+                if (thirty.pickedDices.contains(it)) {
+                    btn.setImageResource(yellowDices[thirty.dices[index]!! - 1])
+                } else {
+                    btn.setImageResource(whiteDices[thirty.dices[index]!! - 1])
+                }
+            }
+            if (thirty.isGrading) {
+                if (thirty.pickedDicesForGrading.contains(it)) {
+                    btn.setImageResource(redDices[thirty.dices[index]!! - 1])
+                } else {
+                    btn.setImageResource(whiteDices[thirty.dices[index]!! - 1])
+                }
             }
         }
     }
@@ -97,10 +107,24 @@ class MainActivity : AppCompatActivity() {
         topMessage.text = text
 
         if (thirty.isGrading) {
-            instructions.text = "Grading"
+            title.text = "Grading"
+            instructions.text = "Click the dices in the order they should be counted."
         }
         if (thirty.isThrowing) {
-            instructions.text = "Throwing"
+            title.text = "Throwing"
+        }
+    }
+
+    fun updateUI() {
+        updateDices()
+        setTopMessage()
+        if (thirty.isGrading) {
+            throwButton.isEnabled = false
+            gradingGrid.visibility = View.VISIBLE
+        }
+        if (thirty.isThrowing) {
+            throwButton.isEnabled = true
+            gradingGrid.visibility = View.GONE
         }
     }
 
@@ -117,7 +141,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         topMessage = findViewById(R.id.top_message)
+        title = findViewById(R.id.title)
         instructions = findViewById(R.id.instructions)
+        gradingGrid = findViewById(R.id.grading_grid)
 
         thirty = Thirty()
         thirty.startGame()
@@ -141,24 +167,34 @@ class MainActivity : AppCompatActivity() {
         throwButton = findViewById(R.id.throw_button)
         throwButton.setOnClickListener { view: View ->
             thirty.throwDice()
-            updateDices()
-            setTopMessage()
-            if (thirty.isGrading) {
-                throwButton.isEnabled = false
-            }
+            updateUI()
         }
 
         fun diceClickListener (btn: View) {
-            val index = diceMap[btn.tag]
-            index?.let {
-                if (thirty.pickedDices.contains(it)) {
-                    thirty.pickedDices.remove(it)
-                } else {
-                    thirty.pickedDices.add(it)
+            if (thirty.isThrowing) {
+                val index = diceMap[btn.tag]
+                index?.let {
+                    if (thirty.pickedDices.contains(it)) {
+                        thirty.pickedDices.remove(it)
+                    } else {
+                        thirty.pickedDices.add(it)
+                    }
                 }
-            }
 
-            updateDices()
+                updateDices()
+            }
+            if (thirty.isGrading) {
+                val index = diceMap[btn.tag]
+                index?.let {
+                    if (thirty.pickedDicesForGrading.contains(it)) {
+                        thirty.pickedDicesForGrading.remove(it)
+                    } else {
+                        thirty.pickedDicesForGrading.add(it)
+                    }
+                }
+
+                updateDices()
+            }
         }
 
         gradingButtons = mutableListOf<ToggleButton>(
@@ -208,7 +244,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Update the UI
-        setTopMessage()
-        updateDices()
+        updateUI()
     }
 }
