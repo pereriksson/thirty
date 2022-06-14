@@ -79,34 +79,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateDices() {
         // TODO: The app crashes when clicking the dices before first throw
-        thirty.dices[0]
-            ?.let {
-                updateDice(dice1, 0)
-            }
-        thirty.dices[1]
-            ?.let {
-                updateDice(dice2, 1)
-            }
-        thirty.dices[2]
-            ?.let {
-                updateDice(dice3, 2)
-            }
-        thirty.dices[3]
-            ?.let {
-                updateDice(dice4, 3)
-            }
-        thirty.dices[4]
-            ?.let {
-                updateDice(dice5, 4)
-            }
-        thirty.dices[5]
-            ?.let {
-                updateDice(dice6, 5)
-            }
+        dices.forEachIndexed { index, imageButton ->
+            thirty.dices[index]
+                ?.let {
+                    updateDice(imageButton, index)
+                }
+        }
     }
 
     private fun setTopMessage() {
-        var text = "Round \n"+thirty.round.toString()
+        var text = ""
+        if (thirty.round != null) {
+            text = text+"Round \n"+thirty.round.toString()
+        }
         if (thirty.currentThrow != null) {
             text = text+"\n"+
                     "Throw \n"+thirty.currentThrow.toString()
@@ -183,35 +168,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        println("onSaveInstanceState")
-        outState.putString("fgh", "fghjk")
-        // todo: vad kan vi spara ner? t ex score
-        // todo: även pågående rond?
-        thirty.gradingSetting?.let {
-            outState.putInt("gradingSetting", it)
-        }
-        thirty.score?.let {
-            outState.putInt("score", it)
-        }
-        thirty.stopped?.let {
-            outState.putBoolean("stopped", it)
-        }
-        thirty.round?.let {
-            outState.putInt("round", it)
-        }
-        thirty.currentThrow?.let {
-            outState.putInt("currentThrow", it)
-        }
-        thirty.pickedDices?.let {
-            // ?
-        }
-        thirty.dices?.let {
-            // ?
-        }
+
+        outState.putParcelable("thirty", thirty)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        println("onRestoreInstanceState")
+
+        savedInstanceState.getParcelable<Thirty>("thirty")?.let {
+            thirty = it
+        }
+
+        // Update the UI
+        setTopMessage()
     }
 }

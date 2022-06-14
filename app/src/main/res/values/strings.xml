@@ -10,7 +10,7 @@
     <string name="dice6_label">Dice 6</string>
     <string name="throw_label">Throw</string>
     <string name="grading_label">Grading:</string>
-    
+
     <string-array name="grading_settings">
         <item>Low</item>
         <item>4</item>
