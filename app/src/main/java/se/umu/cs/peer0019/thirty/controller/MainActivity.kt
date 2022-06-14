@@ -20,6 +20,7 @@ todo:
 
 class MainActivity : AppCompatActivity() {
     private lateinit var throwButton: Button
+    private lateinit var nextRoundButton: Button
     private lateinit var thirty: Thirty
     private lateinit var topMessage: TextView
     private lateinit var title: TextView
@@ -69,20 +70,17 @@ class MainActivity : AppCompatActivity() {
     private fun updateDice(btn: ImageButton, dice: Int) {
         val index = diceMap[btn.tag]
         index?.let {
-            if (thirty.isThrowing) {
                 if (thirty.pickedDices.contains(it)) {
-                    btn.setImageResource(yellowDices[thirty.dices[index]!! - 1])
+                    if (thirty.isThrowing) {
+                        btn.setImageResource(yellowDices[thirty.dices[index]!! - 1])
+                    }
+                    if (thirty.isGrading) {
+                        btn.setImageResource(redDices[thirty.dices[index]!! - 1])
+                    }
                 } else {
                     btn.setImageResource(whiteDices[thirty.dices[index]!! - 1])
                 }
-            }
-            if (thirty.isGrading) {
-                if (thirty.pickedDicesForGrading.contains(it)) {
-                    btn.setImageResource(redDices[thirty.dices[index]!! - 1])
-                } else {
-                    btn.setImageResource(whiteDices[thirty.dices[index]!! - 1])
-                }
-            }
+
         }
     }
 
@@ -121,10 +119,12 @@ class MainActivity : AppCompatActivity() {
         if (thirty.isGrading) {
             throwButton.isEnabled = false
             gradingGrid.visibility = View.VISIBLE
+            nextRoundButton.isEnabled = true
         }
         if (thirty.isThrowing) {
             throwButton.isEnabled = true
             gradingGrid.visibility = View.GONE
+            nextRoundButton.isEnabled = false
         }
     }
 
@@ -144,6 +144,7 @@ class MainActivity : AppCompatActivity() {
         title = findViewById(R.id.title)
         instructions = findViewById(R.id.instructions)
         gradingGrid = findViewById(R.id.grading_grid)
+        nextRoundButton = findViewById(R.id.next_round_button)
 
         thirty = Thirty()
         thirty.startGame()
@@ -170,31 +171,22 @@ class MainActivity : AppCompatActivity() {
             updateUI()
         }
 
+        nextRoundButton.setOnClickListener {
+            thirty.nextRound()
+            updateUI()
+        }
+
         fun diceClickListener (btn: View) {
-            if (thirty.isThrowing) {
-                val index = diceMap[btn.tag]
-                index?.let {
-                    if (thirty.pickedDices.contains(it)) {
-                        thirty.pickedDices.remove(it)
-                    } else {
-                        thirty.pickedDices.add(it)
-                    }
+            val index = diceMap[btn.tag]
+            index?.let {
+                if (thirty.pickedDices.contains(it)) {
+                    thirty.pickedDices.remove(it)
+                } else {
+                    thirty.pickedDices.add(it)
                 }
-
-                updateDices()
             }
-            if (thirty.isGrading) {
-                val index = diceMap[btn.tag]
-                index?.let {
-                    if (thirty.pickedDicesForGrading.contains(it)) {
-                        thirty.pickedDicesForGrading.remove(it)
-                    } else {
-                        thirty.pickedDicesForGrading.add(it)
-                    }
-                }
 
-                updateDices()
-            }
+            updateDices()
         }
 
         gradingButtons = mutableListOf<ToggleButton>(

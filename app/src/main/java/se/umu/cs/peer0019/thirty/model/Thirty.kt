@@ -38,7 +38,6 @@ class Thirty() : Parcelable {
     )
         private set
     var pickedDices = mutableListOf<Int>()
-    var pickedDicesForGrading = mutableListOf<Int>()
 
     constructor(parcel: Parcel) : this() {
         gradingSetting = parcel.readValue(Int::class.java.classLoader) as? Int
@@ -65,6 +64,16 @@ class Thirty() : Parcelable {
     }
     fun startGame() {
         isThrowing = true // todo: refactor to starting a round
+    }
+
+    fun nextRound() {
+        round?.let {
+            round = round?.inc()
+        }
+        pickedDices = mutableListOf<Int>()
+        currentThrow = null
+        isThrowing = true
+        isGrading = false
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
