@@ -1,6 +1,7 @@
 package se.umu.cs.peer0019.thirty.controller
 
 import android.content.Intent
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -105,6 +106,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         gradingSetting = findViewById(R.id.grading_setting)
+
+        // Dices on one row for landscape
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            val gl = findViewById<GridLayout>(R.id.gl)
+            gl.columnCount = 6
+        }
 
         ArrayAdapter.createFromResource(
             this,
