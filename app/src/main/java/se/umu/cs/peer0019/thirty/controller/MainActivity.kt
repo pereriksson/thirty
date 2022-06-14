@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var throwButton: Button
     private lateinit var thirty: Thirty
     private lateinit var topMessage: TextView
+    private lateinit var instructions: TextView
     private lateinit var dice1: ImageButton
     private lateinit var dice2: ImageButton
     private lateinit var dice3: ImageButton
@@ -87,13 +88,20 @@ class MainActivity : AppCompatActivity() {
     private fun setTopMessage() {
         var text = ""
         if (thirty.round != null) {
-            text = text+"Round \n"+thirty.round.toString()
+            text = text+"Round: "+thirty.round.toString()
         }
         if (thirty.currentThrow != null) {
-            text = text+"\n"+
-                    "Throw \n"+thirty.currentThrow.toString()
+            text = text+" "+
+                    "Throw: "+thirty.currentThrow.toString()
         }
         topMessage.text = text
+
+        if (thirty.isGrading) {
+            instructions.text = "Grading"
+        }
+        if (thirty.isThrowing) {
+            instructions.text = "Throwing"
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,6 +117,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         topMessage = findViewById(R.id.top_message)
+        instructions = findViewById(R.id.instructions)
 
         thirty = Thirty()
         thirty.startGame()
@@ -134,7 +143,7 @@ class MainActivity : AppCompatActivity() {
             thirty.throwDice()
             updateDices()
             setTopMessage()
-            if (thirty.stopped) {
+            if (thirty.isGrading) {
                 throwButton.isEnabled = false
             }
         }

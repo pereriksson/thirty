@@ -21,8 +21,9 @@ class Thirty() : Parcelable {
         "12"
     )
     var scorePerRating = mutableListOf<Int>()
-    var stopped: Boolean = false // todo: refactor
+    var isGrading: Boolean = false
         private set
+    var isThrowing: Boolean = false
     var round: Int? = null
         private set
     var currentThrow: Int? = null
@@ -43,16 +44,15 @@ class Thirty() : Parcelable {
     }
 
     fun throwDice() {
-        if (stopped) {
-            return
-        }
+        if (isGrading) return
 
         // Round
         round?.inc()
         if (round == null) round = 1
 
         if (currentThrow == 2) {
-            stopped = true
+            isThrowing = false
+            isGrading = true
         }
         currentThrow = currentThrow?.inc() ?: 1
         dices.forEachIndexed { index, i ->
@@ -62,7 +62,7 @@ class Thirty() : Parcelable {
         }
     }
     fun startGame() {
-
+        isThrowing = true // todo: refactor to starting a round
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
