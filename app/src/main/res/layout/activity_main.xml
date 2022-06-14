@@ -39,8 +39,7 @@
                     android:background="@null"
                     android:layout_marginEnd="@dimen/dice_margin"
                     android:contentDescription="@string/dice1_label"
-                    android:tag="dice1"
-                    android:src="@drawable/white1" />
+                    android:tag="dice1"/>
                 <ImageButton
                     android:id="@+id/dice2"
                     android:layout_width="@dimen/dice_size"
@@ -49,8 +48,7 @@
                     android:background="@null"
                     android:layout_marginEnd="@dimen/dice_margin"
                     android:contentDescription="@string/dice2_label"
-                    android:tag="dice2"
-                    android:src="@drawable/white1"/>
+                    android:tag="dice2"/>
                 <ImageButton
                     android:id="@+id/dice3"
                     android:layout_width="@dimen/dice_size"
@@ -58,8 +56,7 @@
                     android:scaleType="fitXY"
                     android:background="@null"
                     android:contentDescription="@string/dice3_label"
-                    android:tag="dice3"
-                    android:src="@drawable/white1"/>
+                    android:tag="dice3"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -74,8 +71,7 @@
                     android:background="@null"
                     android:layout_marginEnd="@dimen/dice_margin"
                     android:contentDescription="@string/dice4_label"
-                    android:tag="dice4"
-                    android:src="@drawable/white2"/>
+                    android:tag="dice4"/>
                 <ImageButton
                     android:id="@+id/dice5"
                     android:layout_width="@dimen/dice_size"
@@ -84,8 +80,7 @@
                     android:background="@null"
                     android:layout_marginEnd="@dimen/dice_margin"
                     android:contentDescription="@string/dice5_label"
-                    android:tag="dice5"
-                    android:src="@drawable/white2"/>
+                    android:tag="dice5"/>
                 <ImageButton
                     android:id="@+id/dice6"
                     android:layout_width="@dimen/dice_size"
@@ -93,27 +88,36 @@
                     android:scaleType="fitXY"
                     android:background="@null"
                     android:contentDescription="@string/dice6_label"
-                    android:tag="dice6"
-                    android:src="@drawable/white2"/>
+                    android:tag="dice6"/>
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
             <Button
                 android:id="@+id/throw_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="24sp"
                 android:textAllCaps="false"
+                android:layout_marginBottom="10dp"
                 android:text="@string/throw_label" />
+            <Button
+                android:id="@+id/next_round_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:textAllCaps="false"
+                android:enabled="false"
+                android:text="@string/next_round_label" />
         </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/grading_label"/>
+            android:text="@string/grading_label" />
 
         <Spinner
             android:id="@+id/grading_setting"

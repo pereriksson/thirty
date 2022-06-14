@@ -1,7 +1,8 @@
-package se.umu.cs.peer0019.thirty
+package se.umu.cs.peer0019.thirty.controller
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import se.umu.cs.peer0019.thirty.R
 
 class ScoreboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

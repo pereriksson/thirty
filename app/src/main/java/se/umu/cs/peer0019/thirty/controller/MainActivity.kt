@@ -1,10 +1,12 @@
-package se.umu.cs.peer0019.thirty
+package se.umu.cs.peer0019.thirty.controller
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
-import kotlin.math.round
+import se.umu.cs.peer0019.thirty.R
+import se.umu.cs.peer0019.thirty.model.Thirty
 
 /*
 todo:
@@ -100,7 +102,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //todo: gradingSetting.isEnabled = false
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         gradingSetting = findViewById(R.id.grading_setting)
@@ -146,7 +147,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         fun diceClickListener (btn: View) {
-            // todo: the game might say "No" when trying to pick
             val index = diceMap[btn.tag]
             index?.let {
                 if (thirty.pickedDices.contains(it)) {
@@ -181,5 +181,6 @@ class MainActivity : AppCompatActivity() {
 
         // Update the UI
         setTopMessage()
+        updateDices()
     }
 }

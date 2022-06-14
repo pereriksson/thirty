@@ -1,4 +1,4 @@
-package se.umu.cs.peer0019.thirty
+package se.umu.cs.peer0019.thirty.model
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -29,11 +29,6 @@ class Thirty() : Parcelable {
         gradingSetting = parcel.readValue(Int::class.java.classLoader) as? Int
     }
 
-//    fun loadState(newRound: Int?, newCurrentThrow: Int?) {
-//        round = newRound
-//        currentThrow = newCurrentThrow
-//    }
-
     fun throwDice() {
         if (stopped) {
             return
@@ -46,14 +41,12 @@ class Thirty() : Parcelable {
         if (currentThrow == 2) {
             stopped = true
         }
-        pickedDices = mutableListOf()
         currentThrow = currentThrow?.inc() ?: 1
-        dices[0] = Random.nextInt(1, 6)
-        dices[1] = Random.nextInt(1, 6)
-        dices[2] = Random.nextInt(1, 6)
-        dices[3] = Random.nextInt(1, 6)
-        dices[4] = Random.nextInt(1, 6)
-        dices[5] = Random.nextInt(1, 6)
+        dices.forEachIndexed { index, i ->
+            if (!pickedDices.contains(index)) {
+                dices[index] = Random.nextInt(1, 6)
+            }
+        }
     }
     fun startGame() {
 
