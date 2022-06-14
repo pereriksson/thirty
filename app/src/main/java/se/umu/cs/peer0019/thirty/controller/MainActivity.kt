@@ -1,5 +1,6 @@
 package se.umu.cs.peer0019.thirty.controller
 
+import android.content.Intent
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,6 +17,7 @@ todo:
    pick a grading option
    disable grading options already used
  results screen
+ change maxRouonds = 10 before handing in
  */
 
 class MainActivity : AppCompatActivity() {
@@ -104,6 +106,7 @@ class MainActivity : AppCompatActivity() {
         }
         topMessage.text = text
 
+        instructions.text = ""
         if (thirty.isGrading) {
             title.text = "Grading"
             instructions.text = "Click the dices in the order they should be counted."
@@ -172,8 +175,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         nextRoundButton.setOnClickListener {
-            thirty.nextRound()
-            updateUI()
+            if (thirty.round == thirty.maxRounds) {
+                println("sending intent")
+                Intent(this, ScoreboardActivity::class.java)
+                    .apply {
+                        startActivity(this)
+                    }
+            } else {
+                thirty.nextRound()
+                updateUI()
+                dice1.setImageDrawable(null)
+                dice2.setImageDrawable(null)
+                dice3.setImageDrawable(null)
+                dice4.setImageDrawable(null)
+                dice5.setImageDrawable(null)
+                dice6.setImageDrawable(null)
+            }
         }
 
         fun diceClickListener (btn: View) {

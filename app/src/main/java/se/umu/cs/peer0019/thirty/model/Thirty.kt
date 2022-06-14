@@ -26,6 +26,7 @@ class Thirty() : Parcelable {
     var isThrowing: Boolean = false
     var round: Int? = null
         private set
+    val maxRounds = 3
     var currentThrow: Int? = null
         private set
     var dices = mutableListOf<Int?>(
@@ -45,28 +46,31 @@ class Thirty() : Parcelable {
 
     fun throwDice() {
         if (isGrading) return
+        if (round == maxRounds+1) return
 
         // Round
         round?.inc()
         if (round == null) round = 1
 
-        if (currentThrow == 2) {
-            isThrowing = false
-            isGrading = true
-            pickedDices = mutableListOf<Int>()
-        }
         currentThrow = currentThrow?.inc() ?: 1
         dices.forEachIndexed { index, i ->
             if (!pickedDices.contains(index)) {
                 dices[index] = Random.nextInt(1, 6)
             }
         }
+
+        if (currentThrow == 3) {
+            isThrowing = false
+            isGrading = true
+            pickedDices = mutableListOf<Int>()
+        }
     }
     fun startGame() {
-        isThrowing = true // todo: refactor to starting a round
+        isThrowing = true
     }
 
     fun nextRound() {
+        if (round == maxRounds) return
         round?.let {
             round = round?.inc()
         }
@@ -74,6 +78,7 @@ class Thirty() : Parcelable {
         currentThrow = null
         isThrowing = true
         isGrading = false
+        dices = mutableListOf<Int?>(null, null, null, null, null, null)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
