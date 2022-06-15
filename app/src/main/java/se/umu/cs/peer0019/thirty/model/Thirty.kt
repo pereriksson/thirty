@@ -4,10 +4,16 @@ import android.os.Parcel
 import android.os.Parcelable
 import kotlin.random.Random
 
-class Thirty() : Parcelable {
+class Thirty(
+    var rounds: MutableList<Round>,
+    var score: Int,
+    var isGrading: Boolean,
+    var isThrowing: Boolean,
+    var round: Int?,
+    var totalRounds: Int,
+    var currentThrow: Int?
+    ) : Parcelable {
     var gradingSetting: Int? = null
-    var score: Int = 0
-        private set
     var ratings = listOf<String>(
         "low",
         "4",
@@ -21,14 +27,6 @@ class Thirty() : Parcelable {
         "12"
     )
     var scorePerRating = mutableListOf<Int>()
-    var isGrading: Boolean = false
-        private set
-    var isThrowing: Boolean = false
-    var round: Int? = null
-        private set
-    val maxRounds = 3
-    var currentThrow: Int? = null
-        private set
     var dices = mutableListOf<Int?>(
         null,
         null,
@@ -40,13 +38,21 @@ class Thirty() : Parcelable {
         private set
     var pickedDices = mutableListOf<Int>()
 
-    constructor(parcel: Parcel) : this() {
-        gradingSetting = parcel.readValue(Int::class.java.classLoader) as? Int
-    }
+    constructor(parcel: Parcel) : this (
+        arrayListOf<Round>().apply {
+            parcel.readList(this, Round::class.java.classLoader)
+        },
+        parcel.readInt(),
+        parcel.readBoolean(),
+        parcel.readBoolean(),
+        parcel.readInt(),
+        parcel.readInt(),
+        parcel.readInt()
+    )
 
     fun throwDice() {
         if (isGrading) return
-        if (round == maxRounds+1) return
+        if (round == totalRounds + 1) return
 
         // Round
         round?.inc()
@@ -69,8 +75,23 @@ class Thirty() : Parcelable {
         isThrowing = true
     }
 
+    fun saveRound() {
+        // todo: real data
+        val newRound = Round("low", 10)
+        rounds.add(newRound)
+        rounds.add(newRound)
+        rounds.add(newRound)
+        rounds.add(newRound)
+        rounds.add(newRound)
+        rounds.add(newRound)
+        rounds.add(newRound)
+        rounds.add(newRound)
+        rounds.add(newRound)
+        rounds.add(newRound)
+    }
+
     fun nextRound() {
-        if (round == maxRounds) return
+        if (round == totalRounds) return
         round?.let {
             round = round?.inc()
         }
@@ -82,7 +103,7 @@ class Thirty() : Parcelable {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeValue(gradingSetting)
+        parcel.writeList(rounds)
     }
 
     override fun describeContents(): Int {
@@ -98,4 +119,5 @@ class Thirty() : Parcelable {
             return arrayOfNulls(size)
         }
     }
+
 }

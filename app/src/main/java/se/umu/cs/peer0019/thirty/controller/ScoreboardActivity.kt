@@ -2,13 +2,34 @@ package se.umu.cs.peer0019.thirty.controller
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import se.umu.cs.peer0019.thirty.R
+import se.umu.cs.peer0019.thirty.model.Round
+import se.umu.cs.peer0019.thirty.model.Thirty
 
 class ScoreboardActivity : AppCompatActivity() {
+    private lateinit var thirty: Thirty
+    private lateinit var round: Round
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scoreboard)
-        // Omgång 2: 10 poäng
-        // Val: 2+3, 4+1
+
+        val scoreboardText = findViewById<TextView>(R.id.scoreboard_text)
+        intent.getParcelableExtra<Thirty>("thirty")
+            ?.apply {
+                thirty = this
+            }
+        intent.getParcelableExtra<Round>("round")
+            ?.apply {
+                round = this
+            }
+        var score = findViewById<TextView>(R.id.score)
+        score.text = thirty.score.toString()
+
+        var text = "Score per round:\n"
+        thirty.rounds?.forEach {
+            text = text + "${it.category}: ${it.score}\n" // todo
+        }
+        scoreboardText.text = text
     }
 }

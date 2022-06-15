@@ -17,6 +17,33 @@
             android:gravity="center"
             android:textSize="30sp"
             android:text="Scoreboard"
-            android:layout_weight="1"/>
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="@string/total_score"
+                android:id="@+id/total_score"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="50sp"
+                android:id="@+id/score"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/scoreboard_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="20dp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

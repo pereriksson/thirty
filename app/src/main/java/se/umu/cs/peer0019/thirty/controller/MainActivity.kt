@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import se.umu.cs.peer0019.thirty.R
+import se.umu.cs.peer0019.thirty.model.Round
 import se.umu.cs.peer0019.thirty.model.Thirty
 
 /*
@@ -18,6 +19,8 @@ todo:
    disable grading options already used
  results screen
  change maxRouonds = 10 before handing in
+ gå igenom all ful kod + lär dig Kotlin
+ hur ska klassernas properties/constructor se ut?
  */
 
 class MainActivity : AppCompatActivity() {
@@ -149,7 +152,15 @@ class MainActivity : AppCompatActivity() {
         gradingGrid = findViewById(R.id.grading_grid)
         nextRoundButton = findViewById(R.id.next_round_button)
 
-        thirty = Thirty()
+        thirty = Thirty(
+            mutableListOf<Round>(),
+            0,
+            false,
+            false,
+            null,
+            1, // TODO: Change to 10 before hand-in
+            null
+        )
         thirty.startGame()
         setTopMessage()
 
@@ -175,13 +186,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         nextRoundButton.setOnClickListener {
-            if (thirty.round == thirty.maxRounds) {
-                println("sending intent")
+            if (thirty.round == thirty.totalRounds) {
+                thirty.saveRound()
                 Intent(this, ScoreboardActivity::class.java)
                     .apply {
+                        this.putExtra("thirty", thirty)
                         startActivity(this)
                     }
             } else {
+                thirty.saveRound()
                 thirty.nextRound()
                 updateUI()
                 dice1.setImageDrawable(null)

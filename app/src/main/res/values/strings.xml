@@ -11,4 +11,5 @@
     <string name="throw_label">Throw</string>
     <string name="next_round_label">Next round</string>
     <string name="grading_label">Grading:</string>
+    <string name="total_score">Total score:</string>
 </resources>
