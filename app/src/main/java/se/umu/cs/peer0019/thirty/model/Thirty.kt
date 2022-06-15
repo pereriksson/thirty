@@ -13,7 +13,7 @@ class Thirty(
     var totalRounds: Int,
     var currentThrow: Int?
     ) : Parcelable {
-    var remainingRatings = listOf<String>(
+    var remainingCategories = mutableListOf<String>(
         "low",
         "4",
         "5",
@@ -25,10 +25,8 @@ class Thirty(
         "11",
         "12"
     )
-    // todo: dices and pickedDices should be a list of Dices
     var dices = mutableListOf<Dice>()
         private set
-    var pickedDices = mutableListOf<Int>()
 
     constructor(parcel: Parcel) : this (
         arrayListOf<Round>().apply {
@@ -63,15 +61,18 @@ class Thirty(
             dices.forEach {
                 it.picked = false
             }
+
         }
     }
     fun startGame() {
         isThrowing = true
     }
 
-    fun saveRound() {
+    fun saveRound(category: String) {
+        if (!remainingCategories.contains(category)) return
+        remainingCategories.remove(category)
         // todo: real data
-        val newRound = Round("low", 10)
+        val newRound = Round(category, 10)
         rounds.add(newRound)
     }
 
@@ -80,12 +81,12 @@ class Thirty(
         round?.let {
             round = round?.inc()
         }
-        pickedDices = mutableListOf<Int>()
         currentThrow = null
         isThrowing = true
         isGrading = false
         dices.forEach {
             it.value = null
+            it.picked = false
         }
     }
 

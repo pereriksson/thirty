@@ -109,60 +109,70 @@
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:tag="low"
                 android:id="@+id/low"
                 android:textOn="Low"
                 android:textOff="Low"/>
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:tag="four"
                 android:id="@+id/four"
                 android:textOn="4"
                 android:textOff="4"/>
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:tag="five"
                 android:id="@+id/five"
                 android:textOn="5"
                 android:textOff="5"/>
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:tag="six"
                 android:id="@+id/six"
                 android:textOn="6"
                 android:textOff="6"/>
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:tag="seven"
                 android:id="@+id/seven"
                 android:textOn="7"
                 android:textOff="7"/>
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:tag="eight"
                 android:id="@+id/eight"
                 android:textOn="8"
                 android:textOff="8"/>
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:tag="nine"
                 android:id="@+id/nine"
                 android:textOn="9"
                 android:textOff="9"/>
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:tag="ten"
                 android:id="@+id/ten"
                 android:textOn="10"
                 android:textOff="10"/>
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:tag="eleven"
                 android:id="@+id/eleven"
                 android:textOn="11"
                 android:textOff="11"/>
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:tag="twelve"
                 android:id="@+id/twelve"
                 android:textOn="12"
                 android:textOff="12"/>

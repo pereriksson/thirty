@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var instructions: TextView
     private lateinit var gradingGrid: GridLayout
     private lateinit var dices: List<ImageButton>
+    private var selectedCategory: String? = null
     private val whiteDices = listOf(
         R.drawable.white1,
         R.drawable.white2,
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         R.drawable.yellow5,
         R.drawable.yellow6
     )
-    private lateinit var gradingButtons: MutableList<ToggleButton>
+    private lateinit var categoryButtons: MutableList<ToggleButton>
 
     private fun updateDice(btn: ImageButton, index: Int) {
         index.let {
@@ -137,7 +138,7 @@ class MainActivity : AppCompatActivity() {
             false,
             false,
             null,
-            1, // TODO: Change to 10 before hand-in
+            2, // TODO: Change to 10 before hand-in
             null
         )
         thirty.startGame()
@@ -168,7 +169,7 @@ class MainActivity : AppCompatActivity() {
             nextRound(it)
         }
 
-        gradingButtons = mutableListOf<ToggleButton>(
+        categoryButtons = mutableListOf<ToggleButton>(
             findViewById(R.id.low),
             findViewById(R.id.four),
             findViewById(R.id.five),
@@ -187,23 +188,37 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        gradingButtons.forEach {
+        categoryButtons.forEach {
             it.setOnClickListener { it as ToggleButton
-                toggleGrading(it)
+                toggleCategory(it)
             }
         }
     }
 
     fun nextRound (btn: View) {
+        // Find our which category the user has selected
+        var category = ""
+        categoryButtons.forEach {
+            if (it.isChecked) {
+                // Pick the category
+                category = it.tag.toString()
+                it.isEnabled = false
+            }
+        }
+
+        // The user hasn't selected a category
+        if (category == "") return
+
         if (thirty.round == thirty.totalRounds) {
-            thirty.saveRound()
+            thirty.saveRound(category)
+            // Send to Scoreboard
             Intent(this, ScoreboardActivity::class.java)
                 .apply {
                     this.putExtra("thirty", thirty)
                     startActivity(this)
                 }
         } else {
-            thirty.saveRound()
+            thirty.saveRound(category)
             thirty.nextRound()
             updateUI()
             resetDices()
@@ -223,11 +238,12 @@ class MainActivity : AppCompatActivity() {
         updateDices()
     }
 
-    fun toggleGrading (btn: ToggleButton) {
-        gradingButtons.forEach {
+    fun toggleCategory (btn: ToggleButton) {
+        categoryButtons.forEach {
             it.isChecked = false
         }
         btn.isChecked = true
+        selectedCategory = btn.tag.toString()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
