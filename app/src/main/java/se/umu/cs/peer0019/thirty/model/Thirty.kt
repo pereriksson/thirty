@@ -72,8 +72,33 @@ class Thirty(
         if (!remainingCategories.contains(category)) return
         remainingCategories.remove(category)
         // todo: real data
-        val newRound = Round(category, 10)
+        // get total dice count
+        var pickedDiceSum = 0
+        dices.forEach { dice ->
+            dice.value?.let { value ->
+                if (dice.picked) pickedDiceSum += value
+            }
+
+        }
+        // TODO: Check if divisible by category
+        if (category == "low") {
+            // Unpick dices higher than 3
+            dices.forEach { dice ->
+                dice.value?.let { value ->
+                    if (value > 3) dice.picked = false
+                }
+            }
+        } else {
+            val categoryModulo = category.toString().toInt()
+            // User is incorrect
+            // TODO: Notify user
+            if (pickedDiceSum % categoryModulo > 0) return
+        }
+
+
+        val newRound = Round(category, pickedDiceSum)
         rounds.add(newRound)
+        score += pickedDiceSum
     }
 
     fun nextRound() {
