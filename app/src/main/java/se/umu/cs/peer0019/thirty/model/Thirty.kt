@@ -25,14 +25,8 @@ class Thirty(
         "11",
         "12"
     )
-    var dices = mutableListOf<Int?>(
-        null,
-        null,
-        null,
-        null,
-        null,
-        null
-    )
+    // todo: dices and pickedDices should be a list of Dices
+    var dices = mutableListOf<Dice>()
         private set
     var pickedDices = mutableListOf<Int>()
 
@@ -58,15 +52,17 @@ class Thirty(
 
         currentThrow = currentThrow?.inc() ?: 1
         dices.forEachIndexed { index, i ->
-            if (!pickedDices.contains(index)) {
-                dices[index] = Random.nextInt(1, 6)
+            if (!i.picked) {
+                dices[index].value = Random.nextInt(1, 6)
             }
         }
 
         if (currentThrow == 3) {
             isThrowing = false
             isGrading = true
-            pickedDices = mutableListOf<Int>()
+            dices.forEach {
+                it.picked = false
+            }
         }
     }
     fun startGame() {
@@ -76,15 +72,6 @@ class Thirty(
     fun saveRound() {
         // todo: real data
         val newRound = Round("low", 10)
-        rounds.add(newRound)
-        rounds.add(newRound)
-        rounds.add(newRound)
-        rounds.add(newRound)
-        rounds.add(newRound)
-        rounds.add(newRound)
-        rounds.add(newRound)
-        rounds.add(newRound)
-        rounds.add(newRound)
         rounds.add(newRound)
     }
 
@@ -97,7 +84,9 @@ class Thirty(
         currentThrow = null
         isThrowing = true
         isGrading = false
-        dices = mutableListOf<Int?>(null, null, null, null, null, null)
+        dices.forEach {
+            it.value = null
+        }
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

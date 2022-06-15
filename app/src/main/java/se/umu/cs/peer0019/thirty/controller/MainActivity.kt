@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import se.umu.cs.peer0019.thirty.R
+import se.umu.cs.peer0019.thirty.model.Dice
 import se.umu.cs.peer0019.thirty.model.Round
 import se.umu.cs.peer0019.thirty.model.Thirty
 
@@ -19,7 +20,6 @@ todo:
    disable grading options already used
  results screen
  change maxRouonds = 10 before handing in
- gå igenom all ful kod + lär dig Kotlin
  hur ska klassernas properties/constructor se ut?
  */
 
@@ -31,12 +31,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var title: TextView
     private lateinit var instructions: TextView
     private lateinit var gradingGrid: GridLayout
-    private lateinit var dice1: ImageButton
-    private lateinit var dice2: ImageButton
-    private lateinit var dice3: ImageButton
-    private lateinit var dice4: ImageButton
-    private lateinit var dice5: ImageButton
-    private lateinit var dice6: ImageButton
     private lateinit var dices: List<ImageButton>
     private val whiteDices = listOf(
         R.drawable.white1,
@@ -64,29 +58,24 @@ class MainActivity : AppCompatActivity() {
     )
     private lateinit var gradingButtons: MutableList<ToggleButton>
 
-    private fun updateDice(btn: ImageButton, dice: Int) {
-        val index = btn.tag.toString().toInt()
-        index?.let {
-                if (thirty.pickedDices.contains(it)) {
-                    if (thirty.isThrowing) {
-                        btn.setImageResource(yellowDices[thirty.dices[index]!! - 1])
-                    }
-                    if (thirty.isGrading) {
-                        btn.setImageResource(redDices[thirty.dices[index]!! - 1])
-                    }
-                } else {
-                    btn.setImageResource(whiteDices[thirty.dices[index]!! - 1])
-                }
+    private fun updateDice(btn: ImageButton, index: Int) {
+        index.let {
+            val dice = thirty.dices[index]
 
+            dice.value?.let {
+                if (thirty.isThrowing && dice.picked) {
+                    btn.setImageResource(yellowDices[it - 1])
+                } else if (thirty.isGrading && dice.picked) {
+                    btn.setImageResource(redDices[it - 1])
+                } else {
+                    btn.setImageResource(whiteDices[it - 1])
+                }
+            }
         }
     }
 
     private fun updateDices() {
         dices.forEachIndexed { index, imageButton ->
-//            thirty.dices[index]
-//                ?.let {
-//                    updateDice(imageButton, index)
-//                }
             updateDice(imageButton, index)
         }
     }
@@ -152,21 +141,21 @@ class MainActivity : AppCompatActivity() {
             null
         )
         thirty.startGame()
+        thirty.dices.add(Dice(null, false))
+        thirty.dices.add(Dice(null, false))
+        thirty.dices.add(Dice(null, false))
+        thirty.dices.add(Dice(null, false))
+        thirty.dices.add(Dice(null, false))
+        thirty.dices.add(Dice(null, false))
         setTopMessage()
 
-        dice1 = findViewById(R.id.dice1)
-        dice2 = findViewById(R.id.dice2)
-        dice3 = findViewById(R.id.dice3)
-        dice4 = findViewById(R.id.dice4)
-        dice5 = findViewById(R.id.dice5)
-        dice6 = findViewById(R.id.dice6)
         dices = listOf(
-            dice1,
-            dice2,
-            dice3,
-            dice4,
-            dice5,
-            dice6
+            findViewById(R.id.dice1),
+            findViewById(R.id.dice2),
+            findViewById(R.id.dice3),
+            findViewById(R.id.dice4),
+            findViewById(R.id.dice5),
+            findViewById(R.id.dice6)
         )
 
         throwButton = findViewById(R.id.throw_button)
@@ -206,7 +195,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun nextRound (btn: View) {
-        // TODO: Move logic to game class
         if (thirty.round == thirty.totalRounds) {
             thirty.saveRound()
             Intent(this, ScoreboardActivity::class.java)
@@ -230,14 +218,8 @@ class MainActivity : AppCompatActivity() {
 
     fun clickDice (btn: View) {
         val index = btn.tag.toString().toInt()
-        index?.let {
-            if (thirty.pickedDices.contains(it)) {
-                thirty.pickedDices.remove(it)
-            } else {
-                thirty.pickedDices.add(it)
-            }
-        }
-
+        val dice = thirty.dices[index]
+        dice.picked = !dice.picked
         updateDices()
     }
 

@@ -9,7 +9,6 @@ import se.umu.cs.peer0019.thirty.model.Thirty
 
 class ScoreboardActivity : AppCompatActivity() {
     private lateinit var thirty: Thirty
-    private lateinit var round: Round
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scoreboard)
@@ -19,11 +18,7 @@ class ScoreboardActivity : AppCompatActivity() {
             ?.apply {
                 thirty = this
             }
-        intent.getParcelableExtra<Round>("round")
-            ?.apply {
-                round = this
-            }
-        var score = findViewById<TextView>(R.id.score)
+        val score = findViewById<TextView>(R.id.score)
         score.text = thirty.score.toString()
 
         var text = "Score per round:\n"
