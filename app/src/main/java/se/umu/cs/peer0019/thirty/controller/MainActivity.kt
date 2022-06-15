@@ -62,18 +62,10 @@ class MainActivity : AppCompatActivity() {
         R.drawable.yellow5,
         R.drawable.yellow6
     )
-    private val diceMap = mapOf(
-        "dice1" to 0,
-        "dice2" to 1,
-        "dice3" to 2,
-        "dice4" to 3,
-        "dice5" to 4,
-        "dice6" to 5
-    )
     private lateinit var gradingButtons: MutableList<ToggleButton>
 
     private fun updateDice(btn: ImageButton, dice: Int) {
-        val index = diceMap[btn.tag]
+        val index = btn.tag.toString().toInt()
         index?.let {
                 if (thirty.pickedDices.contains(it)) {
                     if (thirty.isThrowing) {
@@ -91,10 +83,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateDices() {
         dices.forEachIndexed { index, imageButton ->
-            thirty.dices[index]
-                ?.let {
-                    updateDice(imageButton, index)
-                }
+//            thirty.dices[index]
+//                ?.let {
+//                    updateDice(imageButton, index)
+//                }
+            updateDice(imageButton, index)
         }
     }
 
@@ -183,37 +176,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         nextRoundButton.setOnClickListener {
-            if (thirty.round == thirty.totalRounds) {
-                thirty.saveRound()
-                Intent(this, ScoreboardActivity::class.java)
-                    .apply {
-                        this.putExtra("thirty", thirty)
-                        startActivity(this)
-                    }
-            } else {
-                thirty.saveRound()
-                thirty.nextRound()
-                updateUI()
-                dice1.setImageDrawable(null)
-                dice2.setImageDrawable(null)
-                dice3.setImageDrawable(null)
-                dice4.setImageDrawable(null)
-                dice5.setImageDrawable(null)
-                dice6.setImageDrawable(null)
-            }
-        }
-
-        fun diceClickListener (btn: View) {
-            val index = diceMap[btn.tag]
-            index?.let {
-                if (thirty.pickedDices.contains(it)) {
-                    thirty.pickedDices.remove(it)
-                } else {
-                    thirty.pickedDices.add(it)
-                }
-            }
-
-            updateDices()
+            nextRound(it)
         }
 
         gradingButtons = mutableListOf<ToggleButton>(
@@ -231,22 +194,58 @@ class MainActivity : AppCompatActivity() {
 
         dices.forEach {
             it.setOnClickListener { it
-                diceClickListener(it)
+                clickDice(it)
             }
-        }
-
-        fun gradingsClickListener (btn: ToggleButton) {
-            gradingButtons.forEach {
-                it.isChecked = false
-            }
-            btn.isChecked = true
         }
 
         gradingButtons.forEach {
             it.setOnClickListener { it as ToggleButton
-                gradingsClickListener(it)
+                toggleGrading(it)
             }
         }
+    }
+
+    fun nextRound (btn: View) {
+        // TODO: Move logic to game class
+        if (thirty.round == thirty.totalRounds) {
+            thirty.saveRound()
+            Intent(this, ScoreboardActivity::class.java)
+                .apply {
+                    this.putExtra("thirty", thirty)
+                    startActivity(this)
+                }
+        } else {
+            thirty.saveRound()
+            thirty.nextRound()
+            updateUI()
+            resetDices()
+        }
+    }
+
+    fun resetDices() {
+        dices.forEach {
+            it.setImageDrawable(null)
+        }
+    }
+
+    fun clickDice (btn: View) {
+        val index = btn.tag.toString().toInt()
+        index?.let {
+            if (thirty.pickedDices.contains(it)) {
+                thirty.pickedDices.remove(it)
+            } else {
+                thirty.pickedDices.add(it)
+            }
+        }
+
+        updateDices()
+    }
+
+    fun toggleGrading (btn: ToggleButton) {
+        gradingButtons.forEach {
+            it.isChecked = false
+        }
+        btn.isChecked = true
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

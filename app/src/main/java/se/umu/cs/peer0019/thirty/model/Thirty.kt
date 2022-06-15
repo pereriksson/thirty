@@ -102,7 +102,16 @@ class Thirty(
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeList(rounds)
-        // todo?
+        parcel.writeInt(score)
+        parcel.writeBoolean(isGrading)
+        parcel.writeBoolean(isThrowing)
+        round?.let {
+            parcel.writeInt(it)
+        }
+        parcel.writeInt(totalRounds)
+        currentThrow?.let {
+            parcel.writeInt(it)
+        }
     }
 
     override fun describeContents(): Int {

@@ -51,7 +51,7 @@
                     android:layout_marginEnd="@dimen/dice_margin"
                     android:layout_marginBottom="@dimen/dice_margin"
                     android:contentDescription="@string/dice1_label"
-                    android:tag="dice1"/>
+                    android:tag="0"/>
                 <ImageButton
                     android:id="@+id/dice2"
                     android:layout_width="@dimen/dice_size"
@@ -61,7 +61,7 @@
                     android:layout_marginEnd="@dimen/dice_margin"
                     android:layout_marginBottom="@dimen/dice_margin"
                     android:contentDescription="@string/dice2_label"
-                    android:tag="dice2"/>
+                    android:tag="1"/>
                 <ImageButton
                     android:id="@+id/dice3"
                     android:layout_width="@dimen/dice_size"
@@ -70,7 +70,7 @@
                     android:background="@null"
                     android:layout_marginBottom="@dimen/dice_margin"
                     android:contentDescription="@string/dice3_label"
-                    android:tag="dice3"/>
+                    android:tag="2"/>
                 <ImageButton
                     android:id="@+id/dice4"
                     android:layout_width="@dimen/dice_size"
@@ -79,7 +79,7 @@
                     android:background="@null"
                     android:layout_marginEnd="@dimen/dice_margin"
                     android:contentDescription="@string/dice4_label"
-                    android:tag="dice4"/>
+                    android:tag="3"/>
                 <ImageButton
                     android:id="@+id/dice5"
                     android:layout_width="@dimen/dice_size"
@@ -88,7 +88,7 @@
                     android:background="@null"
                     android:layout_marginEnd="@dimen/dice_margin"
                     android:contentDescription="@string/dice5_label"
-                    android:tag="dice5"/>
+                    android:tag="4"/>
                 <ImageButton
                     android:id="@+id/dice6"
                     android:layout_width="@dimen/dice_size"
@@ -96,7 +96,7 @@
                     android:scaleType="fitXY"
                     android:background="@null"
                     android:contentDescription="@string/dice6_label"
-                    android:tag="dice6"/>
+                    android:tag="5"/>
             </GridLayout>
         </LinearLayout>
 
