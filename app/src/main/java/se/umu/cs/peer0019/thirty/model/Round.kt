@@ -3,7 +3,9 @@ package se.umu.cs.peer0019.thirty.model
 import android.os.Parcel
 import android.os.Parcelable
 
-class Round (var category: String?, var score: Int = 0) : Parcelable {
+class Round (
+    var category: String?,
+    var score: Int = 0) : Parcelable {
     constructor(parcel: Parcel) : this (
         parcel.readString(),
         parcel.readInt()

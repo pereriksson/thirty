@@ -99,23 +99,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setTopMessage() {
-        var text = ""
-        if (thirty.round != null) {
-            text = text+"Round: "+thirty.round.toString()
-        }
-        if (thirty.currentThrow != null) {
-            text = text+" "+
-                    "Throw: "+thirty.currentThrow.toString()
-        }
-        topMessage.text = text
+        var msg = mutableListOf<String>()
+
+        if (thirty.round != null) msg.add("Round: ${thirty.round.toString()}")
+        if (thirty.currentThrow != null) msg.add("Throw: ${thirty.currentThrow.toString()}")
+        topMessage.text = msg.joinToString(" ")
 
         instructions.text = ""
+
         if (thirty.isGrading) {
-            title.text = "Grading"
-            instructions.text = "Click the dices in the order they should be counted."
+            title.text = getString(R.string.grading_title)
+            instructions.text = getString(R.string.grading_instructions)
         }
         if (thirty.isThrowing) {
-            title.text = "Throwing"
+            title.text = getString(R.string.throwing_title)
         }
     }
 

@@ -11,5 +11,9 @@
     <string name="throw_label">Throw</string>
     <string name="next_round_label">Next round</string>
     <string name="grading_label">Grading:</string>
+    <string name="grading_title">Grading</string>
+    <string name="throwing_title">Throwing</string>
+    <string name="grading_instructions">Click the dices in the order they should be counted.</string>
     <string name="total_score">Total score:</string>
+    <string name="scoreboard_title">Scoreboard</string>
 </resources>

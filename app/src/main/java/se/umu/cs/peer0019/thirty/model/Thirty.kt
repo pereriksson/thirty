@@ -13,8 +13,7 @@ class Thirty(
     var totalRounds: Int,
     var currentThrow: Int?
     ) : Parcelable {
-    var gradingSetting: Int? = null
-    var ratings = listOf<String>(
+    var remainingRatings = listOf<String>(
         "low",
         "4",
         "5",
@@ -26,7 +25,6 @@ class Thirty(
         "11",
         "12"
     )
-    var scorePerRating = mutableListOf<Int>()
     var dices = mutableListOf<Int?>(
         null,
         null,
@@ -104,6 +102,7 @@ class Thirty(
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeList(rounds)
+        // todo?
     }
 
     override fun describeContents(): Int {
