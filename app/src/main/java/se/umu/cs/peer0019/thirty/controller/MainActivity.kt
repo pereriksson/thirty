@@ -11,18 +11,6 @@ import se.umu.cs.peer0019.thirty.model.Dice
 import se.umu.cs.peer0019.thirty.model.Round
 import se.umu.cs.peer0019.thirty.model.Thirty
 
-/*
-todo:
- game logic
-   pair dices at the end of each round
-   game variables for points
-   pick a grading option
-   disable grading options already used
- results screen
- change maxRouonds = 10 before handing in
- hur ska klassernas properties/constructor se ut?
- */
-
 class MainActivity : AppCompatActivity() {
     private lateinit var throwButton: Button
     private lateinit var nextRoundButton: Button
@@ -32,7 +20,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var instructions: TextView
     private lateinit var gradingGrid: GridLayout
     private lateinit var dices: List<ImageButton>
-    private var selectedCategory: String? = null
     private val whiteDices = listOf(
         R.drawable.white1,
         R.drawable.white2,
@@ -59,6 +46,10 @@ class MainActivity : AppCompatActivity() {
     )
     private lateinit var categoryButtons: MutableList<ToggleButton>
 
+    /**
+     * Updates the dice faces in the UI depending on game
+     * mode and the picked state for each dice.
+     */
     private fun updateDice(btn: ImageButton, index: Int) {
         index.let {
             val dice = thirty.dices[index]
@@ -75,14 +66,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Convenience method to update the faces of all dices in the UI.
+     */
     private fun updateDices() {
         dices.forEachIndexed { index, imageButton ->
             updateDice(imageButton, index)
         }
     }
 
+    /**
+     * Compile the message shown to the user.
+     */
     private fun setTopMessage() {
-        var msg = mutableListOf<String>()
+        val msg = mutableListOf<String>()
 
         if (thirty.round != null) msg.add("Round: ${thirty.round.toString()}")
         if (thirty.currentThrow != null) msg.add("Throw: ${thirty.currentThrow.toString()}")
@@ -99,7 +96,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun updateUI() {
+    /**
+     * Convenience method to make sure all UI components
+     * are coherent with game state.
+     */
+    private fun updateUI() {
         updateDices()
         setTopMessage()
         if (thirty.isGrading) {
@@ -114,31 +115,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Lifecycle method to create a new game, create references
+     * to view components and register listeners.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Dices on one row for landscape
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Dices on one row
             val dg = findViewById<GridLayout>(R.id.dice_grid)
             dg.columnCount = 6
-            val gg = findViewById<GridLayout>(R.id.grading_grid)
+            // Categories on two rows
+            val gg = findViewById<GridLayout>(R.id.category_grid)
             gg.columnCount = 5
         }
 
         topMessage = findViewById(R.id.top_message)
         title = findViewById(R.id.title)
         instructions = findViewById(R.id.instructions)
-        gradingGrid = findViewById(R.id.grading_grid)
+        gradingGrid = findViewById(R.id.category_grid)
         nextRoundButton = findViewById(R.id.next_round_button)
 
+        // Create the game, it will be restored from state if available
         thirty = Thirty(
             mutableListOf<Round>(),
             0,
             false,
             false,
             null,
-            2, // TODO: Change to 10 before hand-in
+            10,
             null
         )
         thirty.startGame()
@@ -160,7 +167,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         throwButton = findViewById(R.id.throw_button)
-        throwButton.setOnClickListener { view: View ->
+        throwButton.setOnClickListener {
             thirty.throwDice()
             updateUI()
         }
@@ -169,7 +176,7 @@ class MainActivity : AppCompatActivity() {
             nextRound(it)
         }
 
-        categoryButtons = mutableListOf<ToggleButton>(
+        categoryButtons = mutableListOf(
             findViewById(R.id.low),
             findViewById(R.id.four),
             findViewById(R.id.five),
@@ -182,8 +189,8 @@ class MainActivity : AppCompatActivity() {
             findViewById(R.id.twelve)
         )
 
-        dices.forEach {
-            it.setOnClickListener { it
+        dices.forEach { dice ->
+            dice.setOnClickListener {
                 clickDice(it)
             }
         }
@@ -195,6 +202,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Prepare the UI for next round.
+     */
     fun nextRound (btn: View) {
         // Find our which category the user has selected
         var category = ""
@@ -202,7 +212,6 @@ class MainActivity : AppCompatActivity() {
             if (it.isChecked) {
                 // Pick the category
                 category = it.tag.toString()
-                it.isEnabled = false
             }
         }
 
@@ -210,7 +219,8 @@ class MainActivity : AppCompatActivity() {
         if (category == "") return
 
         if (thirty.round == thirty.totalRounds) {
-            thirty.saveRound(category)
+            // This is last round
+            if (!thirty.saveRound(category)) return
             // Send to Scoreboard
             Intent(this, ScoreboardActivity::class.java)
                 .apply {
@@ -218,19 +228,33 @@ class MainActivity : AppCompatActivity() {
                     startActivity(this)
                 }
         } else {
-            thirty.saveRound(category)
+            // Save and move to next round
+            if (!thirty.saveRound(category)) return
             thirty.nextRound()
             updateUI()
             resetDices()
+            // This dice is now used
+            categoryButtons.forEach {
+                if (it.isChecked) {
+                    it.isEnabled = false
+                    it.isChecked = false
+                }
+            }
         }
     }
 
+    /**
+     * Reset the faces of all dices.
+     */
     fun resetDices() {
         dices.forEach {
             it.setImageDrawable(null)
         }
     }
 
+    /**
+     * Event listener to select a dice as picked/unpicked.
+     */
     fun clickDice (btn: View) {
         val index = btn.tag.toString().toInt()
         val dice = thirty.dices[index]
@@ -238,28 +262,38 @@ class MainActivity : AppCompatActivity() {
         updateDices()
     }
 
+    /**
+     * Event listener to select a certain category.
+     */
     fun toggleCategory (btn: ToggleButton) {
         categoryButtons.forEach {
             it.isChecked = false
         }
         btn.isChecked = true
-        selectedCategory = btn.tag.toString()
     }
 
+    /**
+     * Store the activity state.
+     */
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
+        // Store the game instance in our state bundle.
         outState.putParcelable("thirty", thirty)
     }
 
+    /**
+     * Restore the activity state.
+     */
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
 
+        // Restore the game, if available
         savedInstanceState.getParcelable<Thirty>("thirty")?.let {
             thirty = it
         }
 
-        // Update the UI
+        // Keep the UI in sync with game
         updateUI()
     }
 }

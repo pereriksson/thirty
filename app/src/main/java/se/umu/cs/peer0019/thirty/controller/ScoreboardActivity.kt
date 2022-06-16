@@ -22,8 +22,8 @@ class ScoreboardActivity : AppCompatActivity() {
         score.text = thirty.score.toString()
 
         var text = "Score per round:\n"
-        thirty.rounds?.forEach {
-            text = text + "${it.category}: ${it.score}\n" // todo
+        thirty.rounds.forEach {
+            text += "${it.category}: ${it.score}\n"
         }
         scoreboardText.text = text
     }

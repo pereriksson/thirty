@@ -3,6 +3,10 @@ package se.umu.cs.peer0019.thirty.model
 import android.os.Parcel
 import android.os.Parcelable
 
+/**
+ * A parcelable dice with a value and flag if it has been
+ * picked/chosen by the user or not.
+ */
 class Dice (
     var value: Int?,
     var picked: Boolean
@@ -10,8 +14,7 @@ class Dice (
     constructor(parcel: Parcel) : this (
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readByte() != 0.toByte()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(value)

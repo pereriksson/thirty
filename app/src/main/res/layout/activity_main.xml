@@ -103,8 +103,9 @@
         <GridLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/grading_grid"
+            android:id="@+id/category_grid"
             android:columnCount="3"
+            android:layout_marginBottom="10dp"
             android:visibility="gone">
             <ToggleButton
                 android:layout_width="wrap_content"
@@ -182,7 +183,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="horizontal">
             <Button
                 android:id="@+id/throw_button"
                 android:layout_width="wrap_content"
@@ -190,6 +191,7 @@
                 android:textSize="24sp"
                 android:textAllCaps="false"
                 android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
                 android:text="@string/throw_label" />
             <Button
                 android:id="@+id/next_round_button"
@@ -198,6 +200,7 @@
                 android:textSize="24sp"
                 android:textAllCaps="false"
                 android:enabled="false"
+                android:layout_marginBottom="10dp"
                 android:text="@string/next_round_label" />
         </LinearLayout>
     </LinearLayout>

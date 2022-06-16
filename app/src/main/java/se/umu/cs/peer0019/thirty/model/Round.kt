@@ -3,6 +3,10 @@ package se.umu.cs.peer0019.thirty.model
 import android.os.Parcel
 import android.os.Parcelable
 
+/**
+ * A parcelable round describing a received score and a chosen
+ * category (e g "low", "4")
+ */
 class Round (
     var category: String?,
     var score: Int = 0) : Parcelable {
