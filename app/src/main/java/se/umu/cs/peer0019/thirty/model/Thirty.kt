@@ -36,8 +36,8 @@ class Thirty(
             parcel.readList(this, Round::class.java.classLoader)
         },
         parcel.readInt(),
-        parcel.readBoolean(),
-        parcel.readBoolean(),
+        parcel.readValue(Boolean::class.java.classLoader) as Boolean,
+        parcel.readValue(Boolean::class.java.classLoader) as Boolean,
         parcel.readInt(),
         parcel.readInt(),
         parcel.readInt()
@@ -149,8 +149,8 @@ class Thirty(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeList(rounds)
         parcel.writeInt(score)
-        parcel.writeBoolean(isGrading)
-        parcel.writeBoolean(isThrowing)
+        parcel.writeValue(isGrading)
+        parcel.writeValue(isThrowing)
         round?.let {
             parcel.writeInt(it)
         }

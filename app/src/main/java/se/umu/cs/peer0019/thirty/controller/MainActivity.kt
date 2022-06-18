@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.activity.addCallback
 import se.umu.cs.peer0019.thirty.R
 import se.umu.cs.peer0019.thirty.model.Dice
 import se.umu.cs.peer0019.thirty.model.Round
