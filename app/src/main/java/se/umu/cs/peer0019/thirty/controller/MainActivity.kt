@@ -21,6 +21,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var instructions: TextView
     private lateinit var gradingGrid: GridLayout
     private lateinit var dices: List<ImageButton>
+    private lateinit var diceGrid: GridLayout
+    private lateinit var categoryGrid: GridLayout
     private val whiteDices = listOf(
         R.drawable.white1,
         R.drawable.white2,
@@ -124,22 +126,91 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        startGame()
+        getViewReferences()
+        adaptToScreenOrientation()
+        updateUI()
+        bindViewEvents()
+    }
+
+    /**
+     * Method to adjust the UX for landscape orientation.
+     */
+    fun adaptToScreenOrientation() {
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             // Dices on one row
-            val dg = findViewById<GridLayout>(R.id.dice_grid)
-            dg.columnCount = 6
+            diceGrid.columnCount = 6
             // Categories on two rows
-            val gg = findViewById<GridLayout>(R.id.category_grid)
-            gg.columnCount = 5
+            categoryGrid.columnCount = 5
+        }
+    }
+
+    /**
+     * Register listeners for click events for views.
+     */
+    fun bindViewEvents() {
+        throwButton.setOnClickListener {
+            thirty.throwDice()
+            updateUI()
         }
 
+        nextRoundButton.setOnClickListener {
+            nextRound(it)
+        }
+
+        dices.forEach { dice ->
+            dice.setOnClickListener {
+                clickDice(it)
+            }
+        }
+
+        categoryButtons.forEach {
+            it.setOnClickListener { it as ToggleButton
+                toggleCategory(it)
+            }
+        }
+    }
+
+    /**
+     * Load references to all UI view components.
+     */
+    fun getViewReferences() {
         topMessage = findViewById(R.id.top_message)
         title = findViewById(R.id.title)
         instructions = findViewById(R.id.instructions)
         gradingGrid = findViewById(R.id.category_grid)
         nextRoundButton = findViewById(R.id.next_round_button)
+        throwButton = findViewById(R.id.throw_button)
+        diceGrid = findViewById(R.id.dice_grid)
+        categoryGrid = findViewById(R.id.category_grid)
 
-        // Create the game, it will be restored from state if available
+        dices = listOf(
+            findViewById(R.id.dice1),
+            findViewById(R.id.dice2),
+            findViewById(R.id.dice3),
+            findViewById(R.id.dice4),
+            findViewById(R.id.dice5),
+            findViewById(R.id.dice6)
+        )
+
+        categoryButtons = mutableListOf(
+            findViewById(R.id.low),
+            findViewById(R.id.four),
+            findViewById(R.id.five),
+            findViewById(R.id.six),
+            findViewById(R.id.seven),
+            findViewById(R.id.eight),
+            findViewById(R.id.nine),
+            findViewById(R.id.ten),
+            findViewById(R.id.eleven),
+            findViewById(R.id.twelve)
+        )
+    }
+
+    /**
+     * Create a new instance of the game.
+     */
+    fun startGame() {
         thirty = Thirty(
             mutableListOf<Round>(),
             0,
@@ -156,51 +227,6 @@ class MainActivity : AppCompatActivity() {
         thirty.dices.add(Dice(null, false))
         thirty.dices.add(Dice(null, false))
         thirty.dices.add(Dice(null, false))
-        setTopMessage()
-
-        dices = listOf(
-            findViewById(R.id.dice1),
-            findViewById(R.id.dice2),
-            findViewById(R.id.dice3),
-            findViewById(R.id.dice4),
-            findViewById(R.id.dice5),
-            findViewById(R.id.dice6)
-        )
-
-        throwButton = findViewById(R.id.throw_button)
-        throwButton.setOnClickListener {
-            thirty.throwDice()
-            updateUI()
-        }
-
-        nextRoundButton.setOnClickListener {
-            nextRound(it)
-        }
-
-        categoryButtons = mutableListOf(
-            findViewById(R.id.low),
-            findViewById(R.id.four),
-            findViewById(R.id.five),
-            findViewById(R.id.six),
-            findViewById(R.id.seven),
-            findViewById(R.id.eight),
-            findViewById(R.id.nine),
-            findViewById(R.id.ten),
-            findViewById(R.id.eleven),
-            findViewById(R.id.twelve)
-        )
-
-        dices.forEach { dice ->
-            dice.setOnClickListener {
-                clickDice(it)
-            }
-        }
-
-        categoryButtons.forEach {
-            it.setOnClickListener { it as ToggleButton
-                toggleCategory(it)
-            }
-        }
     }
 
     /**
