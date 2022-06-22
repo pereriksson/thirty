@@ -26,16 +26,28 @@ class Thirty(
         parcel.readInt(),
         parcel.readValue(Boolean::class.java.classLoader) as Boolean,
         parcel.readValue(Boolean::class.java.classLoader) as Boolean,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readInt(),
-        parcel.readInt(),
-        parcel.readInt(),
+        parcel.readValue(Int::class.java.classLoader) as? Int,
         arrayListOf<String>().apply {
             parcel.readList(this, String::class.java.classLoader)
         },
         arrayListOf<Dice>().apply {
             parcel.readList(this, Dice::class.java.classLoader)
-        },
+        }
     )
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeList(rounds)
+        parcel.writeInt(score)
+        parcel.writeValue(isGrading)
+        parcel.writeValue(isThrowing)
+        parcel.writeValue(round)
+        parcel.writeInt(totalRounds)
+        parcel.writeValue(currentThrow)
+        parcel.writeList(remainingCategories)
+        parcel.writeList(dices)
+    }
 
     /**
      * Allows the user, if allowed, to throw all dices not picked by the user.
@@ -74,6 +86,30 @@ class Thirty(
         // Make sure this is a new uninitialized game
         if (isThrowing || isGrading) return
         isThrowing = true
+        score = 0
+        round = null
+        totalRounds = 10
+        currentThrow = null
+        remainingCategories = mutableListOf<String>(
+            "low",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12"
+        )
+        dices = listOf<Dice>(
+            Dice(null, false),
+            Dice(null, false),
+            Dice(null, false),
+            Dice(null, false),
+            Dice(null, false),
+            Dice(null, false)
+        )
     }
 
     /**
@@ -138,22 +174,6 @@ class Thirty(
             it.value = null
             it.picked = false
         }
-    }
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeList(rounds)
-        parcel.writeInt(score)
-        parcel.writeValue(isGrading)
-        parcel.writeValue(isThrowing)
-        round?.let {
-            parcel.writeInt(it)
-        }
-        parcel.writeInt(totalRounds)
-        currentThrow?.let {
-            parcel.writeInt(it)
-        }
-        parcel.writeList(remainingCategories)
-        parcel.writeList(dices)
     }
 
     override fun describeContents(): Int {

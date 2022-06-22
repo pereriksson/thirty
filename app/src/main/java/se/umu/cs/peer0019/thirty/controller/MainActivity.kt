@@ -116,6 +116,20 @@ class MainActivity : AppCompatActivity() {
             gradingGrid.visibility = View.GONE
             nextRoundButton.isEnabled = false
         }
+        updateCategoryButtons()
+    }
+
+    fun updateCategoryButtons() {
+        // Disable all
+        categoryButtons.forEach {
+            it.isEnabled = false
+        }
+        // Activate buttons for all remaining categories
+        categoryButtons.forEach { btn ->
+            if (thirty.remainingCategories.contains(btn.tag)) {
+                btn.isEnabled = true
+            }
+        }
     }
 
     /**
@@ -127,6 +141,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         startGame()
+
+        intent.getParcelableExtra<Thirty>("thirty")
+            ?.apply {
+                thirty = this
+            }
+
         getViewReferences()
         adaptToScreenOrientation()
         updateUI()
