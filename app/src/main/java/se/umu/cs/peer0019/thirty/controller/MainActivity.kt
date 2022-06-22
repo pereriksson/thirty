@@ -218,15 +218,29 @@ class MainActivity : AppCompatActivity() {
             false,
             null,
             10,
-            null
+            null,
+            mutableListOf<String>(
+                "low",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12"
+            ),
+            listOf<Dice>(
+                Dice(null, false),
+                Dice(null, false),
+                Dice(null, false),
+                Dice(null, false),
+                Dice(null, false),
+                Dice(null, false)
+            )
         )
         thirty.startGame()
-        thirty.dices.add(Dice(null, false))
-        thirty.dices.add(Dice(null, false))
-        thirty.dices.add(Dice(null, false))
-        thirty.dices.add(Dice(null, false))
-        thirty.dices.add(Dice(null, false))
-        thirty.dices.add(Dice(null, false))
     }
 
     /**

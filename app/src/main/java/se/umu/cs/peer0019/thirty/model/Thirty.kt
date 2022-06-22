@@ -14,22 +14,10 @@ class Thirty(
     var isThrowing: Boolean,
     var round: Int?,
     var totalRounds: Int,
-    var currentThrow: Int?
+    var currentThrow: Int?,
+    var remainingCategories: MutableList<String>,
+    var dices: List<Dice>
     ) : Parcelable {
-    var remainingCategories = mutableListOf<String>(
-        "low",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        "10",
-        "11",
-        "12"
-    )
-    var dices = mutableListOf<Dice>()
-        private set
 
     constructor(parcel: Parcel) : this (
         arrayListOf<Round>().apply {
@@ -40,7 +28,13 @@ class Thirty(
         parcel.readValue(Boolean::class.java.classLoader) as Boolean,
         parcel.readInt(),
         parcel.readInt(),
-        parcel.readInt()
+        parcel.readInt(),
+        arrayListOf<String>().apply {
+            parcel.readList(this, String::class.java.classLoader)
+        },
+        arrayListOf<Dice>().apply {
+            parcel.readList(this, Dice::class.java.classLoader)
+        },
     )
 
     /**
@@ -158,6 +152,8 @@ class Thirty(
         currentThrow?.let {
             parcel.writeInt(it)
         }
+        parcel.writeList(remainingCategories)
+        parcel.writeList(dices)
     }
 
     override fun describeContents(): Int {
